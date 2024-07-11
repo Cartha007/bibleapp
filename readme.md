@@ -24,8 +24,8 @@ This terminal-based Bible app allows you to navigate through the Bible, search f
 
 ### Installation
 
-1. Clone this repository or download the script and the `bible.json` file.
-2. Ensure you have the JSON file named `bible.json` in the same directory as the script.
+1. Clone this repository or download the script and the `reformatted_bible.json` file.
+2. Ensure you have the JSON file named `reformatted_bible.json` in the same directory as the script.
 
 ### Usage
 
