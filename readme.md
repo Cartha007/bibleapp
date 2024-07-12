@@ -32,7 +32,7 @@ This terminal-based Bible app allows you to navigate through the Bible, search f
 1. Run the script:
 
    ```sh
-   python bible_app.py
+   python bibleapp.py
 
 2. Enter commands to interact with the app. The available commands are:
 
