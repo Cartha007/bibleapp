@@ -38,9 +38,9 @@
         {% endblock %}
     </div>
     
-    {%if request.endpoint not in ['login_page', 'register_page', 'add_post', 'edit_post', 'delete_post']%}
+    {%if request.endpoint not in ['login_page', 'register_page', 'add_post', 'edit_post', 'delete_post', 'about']%}
     <a href="#">
-    <div class="fab-container" title="Add Post">
+    <div class="fab-container" title="Add Note">
       <div class="btn btn-outline-secondary rounded-circle iconbutton button shadow">
         <i class="fa-solid fa-plus"></i>
       </div>
