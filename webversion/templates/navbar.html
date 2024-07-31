@@ -26,7 +26,7 @@
             </ul>
             {% if request.endpoint not in ['about'] %}
             <form method="POST" action="{{ url_for('search') }}" class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched" style="width: 150px; padding: 0.25rem 0.5rem; font-size: 14px;">
+                <input class="form-control me-2" type="search" placeholder="Search a bible verse..." aria-label="Search" name="searched" style="width: 150px; padding: 0.25rem 0.5rem; font-size: 14px;">
                 <button class="btn btn-outline-secondary btn-sm" type="submit">Search</button>
             </form>
             {% endif %}
