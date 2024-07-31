@@ -6,16 +6,12 @@ app = Flask(__name__)
 
 class Bible:
     data = None
-
-    @classmethod
-    def load_data(cls, file_path):
-        if cls.data is None:
-            # Load the Bible data from the given file path
-            with open(file_path, 'r') as file:
-                cls.data = json.load(file)
     
     def __init__(self, file_path):
-        self.load_data(file_path)
+        if self.data is None:
+            # Load the Bible data from the given file path
+            with open(file_path, 'r') as file:
+                self.data = json.load(file)
         self.bookmarks = {}
         self.notes = {}
         self.current_book = None
@@ -83,6 +79,11 @@ def search():
 @app.route('/about')
 def about():
     return render_template('about.html', active_page='about')
+
+# @app.route('/feedback')
+# def feedback():
+#     return render_template('feedback.html', active_page='feedback')
+
 
 # Error Pages
 
