@@ -11,17 +11,17 @@
             <ul class="navbar-nav mx-auto mb-2 mb-sm-0">
                 {% if request.endpoint not in ['home'] %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link c-link {% if active_page == 'home' %}active{% endif %}" href="/">Home</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Versions</a>
+                    <a class="nav-link c-link {% if active_page == 'versions' %}active{% endif %}" href="#">Versions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link c-link {% if active_page == 'contact' %}active{% endif %}" href="#">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    <a class="nav-link c-link {% if active_page == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About</a>
                 </li>
             </ul>
             {% if request.endpoint not in ['about'] %}
