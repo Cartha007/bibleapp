@@ -6,12 +6,15 @@ app = Flask(__name__)
 
 class Bible:
     data = None
-    
-    def __init__(self, file_path):
-        if self.data is None:
+
+    @classmethod
+    def load_data(cls, file_path):
+        if cls.data is None:
             # Load the Bible data from the given file path
             with open(file_path, 'r') as file:
-                self.data = json.load(file)
+                cls.data = json.load(file)
+    
+    def __init__(self):
         self.bookmarks = {}
         self.notes = {}
         self.current_book = None
@@ -67,10 +70,15 @@ class Bible:
         return self.notes
 
 
+# Load the data once
+Bible.load_data('bible.json')
+
+
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', active_page='home')
+    bible = Bible()
+    return render_template('home.html', active_page='home', bible=bible)
 
 @app.route('/search')
 def search():
