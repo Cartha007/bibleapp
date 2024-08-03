@@ -1,3 +1,10 @@
+<!-- To Dos -->
+ <!-- Loading data to the page through the books_data variable -->
+  <!-- Display the data properly on the homepage -->
+   <!-- Make sure it displays the verse exactly as it -->
+    <!-- I'll implement displaying the book or chapter only later -->
+
+
 {% extends 'base.html' %}
 
 {% block title %}
@@ -7,7 +14,51 @@
 {% block content %}
 
 <div class="custom_container mt-5 mb-5">
+    <div class="text-center">
+        <h1>Welcome to the Holy Bible App</h1>
+        <p class="lead">Explore the Holy Scriptures</p>
+    </div>
     
+    <form action="{{ url_for('search') }}" method="post" class="mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <label for="bookDropdown" class="form-label">Select a Book:</label>
+                <select class="form-select" id="bookDropdown" name="book_name">
+                    <optgroup label="Old Testament">
+                        {% for book in books[:39] %}
+                            <option value="{{ book }}">{{ book }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    <optgroup label="New Testament">
+                        {% for book in books[39:] %}
+                            <option value="{{ book }}">{{ book }}</option>
+                        {% endfor %}
+                    </optgroup>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="chapterDropdown" class="form-label">Select a Chapter:</label>
+                <select class="form-select" id="chapterDropdown" name="chapter">
+                    <!-- Options for chapters go here -->
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="verseDropdown" class="form-label">Select a Verse:</label>
+                <select class="form-select" id="verseDropdown" name="verse">
+                    <!-- Options for verses go here -->
+                </select>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Select</button>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-center mt-4">
+        <a href="/search" class="btn btn-secondary mx-2">Search Scriptures</a>
+        <!-- <a href="/bookmarks" class="btn btn-info mx-2">View Bookmarks</a>
+        <a href="/notes" class="btn btn-warning mx-2">View Notes</a> -->
+    </div>
 </div>
 
 {% endblock %}
