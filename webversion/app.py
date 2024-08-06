@@ -6,13 +6,18 @@ app = Flask(__name__)
 
 class Bible:
     data = None
+    books_data = None
 
     @classmethod
-    def load_data(cls, file_path):
+    def load_bible_data(cls, bible_file_path, book_file_path):
         if cls.data is None:
             # Load the Bible data from the given file path
-            with open(file_path, 'r') as file:
+            with open(bible_file_path, 'r') as file:
                 cls.data = json.load(file)
+        if cls.books_data is None:
+            # Load the books data from the given file path
+            with open(book_file_path, 'r') as books_file:
+                cls.books_data = json.load(books_file)
     
     def __init__(self):
         self.bookmarks = {}
@@ -24,6 +29,12 @@ class Bible:
         # Metadata information
         metadata = self.data['metadata']
         return metadata
+    
+    def get_books(self):
+        return list(self.books_data.keys())
+    
+    def get_chapters(self):
+        return list(_ for _ in self.books_data.values().keys())
     
     def fetch_books(self):
         books = {verse['book']: verse['book_name'] for verse in self.data['verses']}
@@ -71,14 +82,16 @@ class Bible:
 
 
 # Load the data once
-Bible.load_data('bible.json')
+Bible.load_bible_data('bible.json', 'books.json') 
 
 
 @app.route('/')
 @app.route('/home')
 def home():
     bible = Bible()
-    return render_template('home.html', active_page='home', bible=bible)
+    metadata = bible.fetch_info()
+    books = bible.get_books()
+    return render_template('home.html', active_page='home', bible=bible, metadata=metadata, books=books)
 
 @app.route('/search')
 def search():
