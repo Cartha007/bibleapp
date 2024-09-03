@@ -36,6 +36,13 @@ class Bible:
     def get_chapters(self):
         return list(_ for _ in self.books_data.values().keys())
     
+    def get_book_chapters(self, book_name):
+        return list(self.books_data.get(book_name, {}).keys())
+    
+    def get_chapter_verses(self, book_name, chapter):
+        chapters = self.books_data.get(book_name, {})
+        return chapters.get(chapter, [])
+    
     def fetch_books(self):
         books = {verse['book']: verse['book_name'] for verse in self.data['verses']}
         return sorted(books.items())
@@ -80,18 +87,28 @@ class Bible:
     def fetch_notes(self):
         return self.notes
 
-
 # Load the data once
 Bible.load_bible_data('bible.json', 'books.json') 
 
 
 @app.route('/')
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     bible = Bible()
     metadata = bible.fetch_info()
     books = bible.get_books()
-    return render_template('home.html', active_page='home', bible=bible, metadata=metadata, books=books)
+    chapters = {book : bible.get_book_chapters(book) for book in books}
+    verses = {}
+    for book, chapters_list in chapters.items():
+            for chapter in chapters_list:
+                verses[chapter] = list(bible.get_chapter_verses(book, chapter)) 
+    return render_template('home.html',
+                           active_page='home',
+                           bible=bible,
+                           metadata=metadata,
+                           books=books,
+                           chapters=chapters,
+                           verses=verses)
 
 @app.route('/search')
 def search():
@@ -104,7 +121,6 @@ def about():
 # @app.route('/feedback')
 # def feedback():
 #     return render_template('feedback.html', active_page='feedback')
-
 
 # Error Pages
 

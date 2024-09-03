@@ -1,10 +1,3 @@
-<!-- To Dos -->
- <!-- Loading data to the page through the books_data variable -->
-  <!-- Display the data properly on the homepage -->
-   <!-- Make sure it displays the verse exactly as it -->
-    <!-- I'll implement displaying the book or chapter only later -->
-
-
 {% extends 'base.html' %}
 
 {% block title %}
@@ -23,7 +16,8 @@
         <div class="row justify-content-center">
             <div class="col-md-3 mb-3">
                 <label for="bookDropdown" class="form-label">Select a Book:</label>
-                <select class="form-select" id="bookDropdown" name="book_name">
+                <select class="form-select" id="bookDropdown" name="book_name" onchange="populateChapters()">
+                    <option value="" selected disabled>-- Select a book --</option>
                     <optgroup label="Old Testament">
                         {% for book in books[:39] %}
                             <option value="{{ book }}">{{ book }}</option>
@@ -38,13 +32,15 @@
             </div>
             <div class="col-md-3 mb-3">
                 <label for="chapterDropdown" class="form-label">Select a Chapter:</label>
-                <select class="form-select" id="chapterDropdown" name="chapter">
+                <select class="form-select" id="chapterDropdown" name="chapter" onchange="populateVerses()">
+                    <option value="" selected disabled>-- Select a chapter --</option>
                     <!-- Options for chapters go here -->
                 </select>
             </div>
             <div class="col-md-3 mb-3">
                 <label for="verseDropdown" class="form-label">Select a Verse:</label>
                 <select class="form-select" id="verseDropdown" name="verse">
+                    <option value="" selected disabled>-- Select a verse --</option>
                     <!-- Options for verses go here -->
                 </select>
             </div>
@@ -60,5 +56,45 @@
         <a href="/notes" class="btn btn-warning mx-2">View Notes</a> -->
     </div>
 </div>
+
+<script>
+    let chapters = {{ chapters|tojson }};
+    let verses = {{ verses|tojson }};
+    let bookSelect = document.getElementById("bookDropdown");
+    let chapterSelect = document.getElementById("chapterDropdown");
+    let verseSelect = document.getElementById("verseDropdown");
+
+    const populateChapters = () => {
+        chapterSelect.innerHTML='<option value="">Select a chapter</option>';
+        verseSelect.innerHTML='<option value="">Select a verse</option>';
+
+        let selectedBook = bookSelect.value;
+        if (selectedBook) {
+            let selectedChapters = chapters[selectedBook] || [];
+            selectedChapters.forEach(function(chapter){
+                let option = document.createElement("option");
+                option.value = chapter;
+                option.text = chapter;
+                chapterSelect.appendChild(option);
+            });
+        }
+    }
+
+    const populateVerses = () => {
+        verseSelect.innerHTML='<option value="">Select a verse</option>';
+
+        let selectedChapter = chapterSelect.value;
+        if (selectedChapter) {
+            let selectedVerses = verses[selectedChapter] || [];
+            selectedVerses.forEach(function(verse){
+                let option = document.createElement("option");
+                option.value = verse;
+                option.text = verse;
+                verseSelect.appendChild(option);
+            });
+        }
+    }
+
+</script>
 
 {% endblock %}
