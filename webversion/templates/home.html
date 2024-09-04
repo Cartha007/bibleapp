@@ -6,18 +6,19 @@
 
 {% block content %}
 
-<div class="custom_container mt-5 mb-5">
+<div class="container shadow-lg rounded-4 p-4 mt-5 mb-5 bg-body text-body">
     <div class="text-center">
         <h1>Welcome to the Holy Bible App</h1>
         <p class="lead">Explore the Holy Scriptures</p>
     </div>
     
-    <form action="{{ url_for('search') }}" method="post" class="mt-4">
+    <!-- Form Section -->
+    <form action="{{ url_for('home') }}" method="POST" class="mt-4">
         <div class="row justify-content-center">
             <div class="col-md-3 mb-3">
                 <label for="bookDropdown" class="form-label">Select a Book:</label>
                 <select class="form-select" id="bookDropdown" name="book_name" onchange="populateChapters()">
-                    <option value="" selected disabled>-- Select a book --</option>
+                    <!--<option value="" selected disabled>-- Select a book --</option>-->
                     <optgroup label="Old Testament">
                         {% for book in books[:39] %}
                             <option value="{{ book }}">{{ book }}</option>
@@ -34,14 +35,12 @@
                 <label for="chapterDropdown" class="form-label">Select a Chapter:</label>
                 <select class="form-select" id="chapterDropdown" name="chapter" onchange="populateVerses()">
                     <option value="" selected disabled>-- Select a chapter --</option>
-                    <!-- Options for chapters go here -->
                 </select>
             </div>
             <div class="col-md-3 mb-3">
                 <label for="verseDropdown" class="form-label">Select a Verse:</label>
                 <select class="form-select" id="verseDropdown" name="verse">
                     <option value="" selected disabled>-- Select a verse --</option>
-                    <!-- Options for verses go here -->
                 </select>
             </div>
         </div>
@@ -50,12 +49,26 @@
         </div>
     </form>
 
-    <div class="d-flex justify-content-center mt-4">
-        <a href="/search" class="btn btn-secondary mx-2">Search Scriptures</a>
-        <!-- <a href="/bookmarks" class="btn btn-info mx-2">View Bookmarks</a>
-        <a href="/notes" class="btn btn-warning mx-2">View Notes</a> -->
+    <!-- Dark Mode Compatible Display Section -->
+    {% if selected_verse_text %}
+    <div class="mt-4 p-3 border rounded bg-body-secondary text-body-secondary">
+        <h4 class="text-primary">{{ selected_book }} {{ selected_chapter }}:{{ selected_verse }}</h4>
+        <p class="lead">{{ selected_verse_text }}</p>
     </div>
+    {% elif chapter_data %}
+        <div class="mt-4 p-3 bg-body-secondary border rounded text-body-secondary">
+            <h5 class="mb-3 text-primary">Verses in {{ selected_book }} Chapter {{ selected_chapter }}</h5>
+            {% for verse in chapter_data %}
+                <div class="mb-2 p-2 border rounded bg-body text-body">
+                    <strong>Chapter {{ verse['chapter'] }}:{{ verse['verse'] }}</strong>
+                    <p class="mb-0 lead">{{ verse['text'] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
+
+
 
 <script>
     let chapters = {{ chapters|tojson }};
