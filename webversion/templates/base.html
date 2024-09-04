@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <body>
+  <body data-bs-theme="">
 
     <!-- Navigation Bar -->
     {% include 'navbar.html' %}
@@ -40,8 +40,14 @@
 
         {% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer>
+      <hr>
+      <p class="bottom">&copy; 2024 Holy Bible. All rights reserved</p>
+  </footer>
     
-    {%if request.endpoint not in ['login_page', 'register_page', 'add_post', 'edit_post', 'delete_post', 'about']%}
+    {%if request.endpoint not in ['about']%}
     <a href="#">
     <div class="fab-container" title="Add Note">
       <div class="btn btn-outline-secondary rounded-circle iconbutton button shadow">
@@ -52,6 +58,41 @@
  
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+      // Function to toggle theme and update the label
+      const toggleTheme = () => {
+        let bodyElement = document.body;
+        let isLightMode = bodyElement.dataset.bsTheme === "light";
+        
+        // Toggle theme
+        bodyElement.dataset.bsTheme = isLightMode ? "dark" : "light";
+
+        // Save the new theme preference in localStorage
+        localStorage.setItem('theme', bodyElement.dataset.bsTheme);
+        
+        // Update the label text
+        document.getElementById("darkModeLabel").textContent = isLightMode ? "Dark Mode" : "Light Mode";
+      };
+    
+      // Initialize the label text based on the current theme
+      const initializeTheme = () => {
+        // Get the saved theme from localStorage, default to 'light' if not set
+    let savedTheme = localStorage.getItem('theme') || "light";
+    
+    // Apply the saved theme to the body
+    document.body.dataset.bsTheme = savedTheme;
+    
+    // Set the label text based on the saved theme
+    document.getElementById("darkModeLabel").textContent = savedTheme === "light" ? "Light Mode" : "Dark Mode";
+    
+    // Set the checkbox state based on the saved theme
+    document.getElementById("flexSwitchCheckChecked").checked = savedTheme === "dark";
+  };
+    
+      // Set the correct label and checkbox state when the page loads
+      document.addEventListener("DOMContentLoaded", initializeTheme);
+    </script>
+    
+    
   </body>
 </html>
