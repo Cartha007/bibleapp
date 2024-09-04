@@ -91,24 +91,66 @@ class Bible:
 Bible.load_bible_data('bible.json', 'books.json') 
 
 
-@app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def home():
     bible = Bible()
     metadata = bible.fetch_info()
     books = bible.get_books()
-    chapters = {book : bible.get_book_chapters(book) for book in books}
+    chapters = {book: bible.get_book_chapters(book) for book in books}
     verses = {}
     for book, chapters_list in chapters.items():
-            for chapter in chapters_list:
-                verses[chapter] = list(bible.get_chapter_verses(book, chapter)) 
+        for chapter in chapters_list:
+            verses[chapter] = list(bible.get_chapter_verses(book, chapter))
+    
+    selected_book = None
+    selected_chapter = None
+    selected_verse = None
+    selected_verse_text = None
+    chapter_data = None
+    
+    if request.method == 'POST':
+        selected_book = request.form.get('book_name', '').strip()
+        selected_chapter_str = request.form.get('chapter', '').strip()
+        selected_verse_str = request.form.get('verse', '').strip()
+
+        # Handle selected chapter and verse safely
+        try:
+            if selected_chapter_str:
+                selected_chapter = int(selected_chapter_str)
+        except ValueError:
+            selected_chapter = None
+
+        try:
+            if selected_verse_str:
+                selected_verse = int(selected_verse_str)
+        except ValueError:
+            selected_verse = None
+        
+        bible.select_book(selected_book)
+        if selected_chapter is not None:
+            bible.select_chapter(selected_chapter)
+        
+        if selected_verse is not None:
+            verses_data = bible.fetch_chapter()
+            if verses_data:
+                selected_verse_text = next((verse['text'] for verse in verses_data if verse['verse'] == selected_verse), "Verse not found.")
+        elif selected_chapter is not None:
+            chapter_data = bible.fetch_chapter()
+    
     return render_template('home.html',
                            active_page='home',
                            bible=bible,
                            metadata=metadata,
                            books=books,
                            chapters=chapters,
-                           verses=verses)
+                           verses=verses,
+                           selected_book=selected_book,
+                           selected_chapter=selected_chapter,
+                           selected_verse=selected_verse,
+                           selected_verse_text=selected_verse_text,
+                           chapter_data=chapter_data)
+
 
 @app.route('/search')
 def search():
