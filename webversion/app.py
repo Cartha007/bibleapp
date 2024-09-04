@@ -33,19 +33,12 @@ class Bible:
     def get_books(self):
         return list(self.books_data.keys())
     
-    def get_chapters(self):
-        return list(_ for _ in self.books_data.values().keys())
-    
     def get_book_chapters(self, book_name):
         return list(self.books_data.get(book_name, {}).keys())
     
     def get_chapter_verses(self, book_name, chapter):
         chapters = self.books_data.get(book_name, {})
         return chapters.get(chapter, [])
-    
-    def fetch_books(self):
-        books = {verse['book']: verse['book_name'] for verse in self.data['verses']}
-        return sorted(books.items())
     
     def select_book(self, book_name):
         books = {verse['book_name']: verse['book'] for verse in self.data['verses']}
