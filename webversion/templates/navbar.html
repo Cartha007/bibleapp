@@ -9,26 +9,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-sm-0">
-                {% if request.endpoint not in ['home'] %}
                 <li class="nav-item">
-                    <a class="nav-link c-link {% if active_page == 'home' %}active{% endif %}" href="/">Home</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link c-link {% if active_page == 'versions' %}active{% endif %}" href="#">Versions</a>
+                    <a class="nav-link c-link {% if request.path == url_for('home') %}active{% endif %}" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link c-link {% if active_page == 'contact' %}active{% endif %}" href="#">Contact</a>
+                    <a class="nav-link c-link {% if active_page == versions %}active{% endif %}" href="#">Scripture Versions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link c-link {% if active_page == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About</a>
+                    <!-- <a class="nav-link c-link {% if active_page == 'about' %}active{% endif %}" href="{{ url_for('about') }}#contact">Reach Out</a>-->
+                    <a class="nav-link c-link" href="{{ url_for('about') }}#contact">Reach Out</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link c-link {% if request.path == url_for('about') %}active{% endif %}" href="{{ url_for('about') }}">About Us</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center">
                 {% if request.endpoint not in ['about'] %}
                 <form method="POST" action="{{ url_for('search') }}" class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search a bible verse..." aria-label="Search" name="searched" style="width: 150px; padding: 0.25rem 0.5rem; font-size: 14px;">
-                    <button class="btn btn-outline-secondary btn-sm" type="submit">Search</button>
+                    <input class="form-control me-2" type="search" placeholder="Search the Scriptures..." aria-label="Search" name="searched" style="width: 150px; padding: 0.25rem 0.5rem; font-size: 14px;">
+                    <button class="btn btn-outline-secondary btn-sm" type="submit">Seek</button>
                 </form>
                 {% endif %}
 
@@ -43,7 +42,7 @@
                     >
                     <label class="form-check-label" for="flexSwitchCheckChecked" id="darkModeLabel">Light Mode</label>
                 </div>
-              </div>
+            </div>
         </div>
     </div>
 </nav>
