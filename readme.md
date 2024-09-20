@@ -80,6 +80,12 @@ The web-based Bible app provides a user-friendly interface for interacting with 
 ##### Installation
 
 1. Clone this repository or download the project files.
+   To clone this repository, run the following command in your terminal:
+
+   ```sh
+   git clone https://github.com/Cartha007/bibleapp.git
+   ```
+
 2. Enter the project directory
    ```sh
    cd bibleapp/webversion
