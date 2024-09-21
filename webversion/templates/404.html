@@ -7,14 +7,16 @@
 {% block content %}
 
     <style>
-        body {
-            background-color: #f0f0f0; /* Grey background color */
-        }
 
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 50vh;
+        }
+
+        .display-1 {
+            font-weight: 500;
         }
 
         .col {
@@ -25,10 +27,10 @@
     <div class="container text-center mt-5">
         <div class="row">
             <div class="col">
-                <h1 class="display-1">404</h1>
-                <p class="lead">Page not found!</p>
-                <p>Oops! The page you are looking for might have been removed or does not exist.</p>
-                <a href="/" class="btn btn-outline-secondary">Go back to homepage</a>
+                <h1 class="display-1 text-danger">404</h1>
+                <p class="lead">"For the Son of Man came to seek and to save the lost." – Luke 19:10</p>
+                <p>It seems like you've lost your way! But don't worry, even when you're lost, there's always a way back.</p>
+                <a href="/" class="btn btn-outline-secondary">Return to thy path</a>
             </div>
         </div>
     </div>
