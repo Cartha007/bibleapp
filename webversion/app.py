@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
+from werkzeug.exceptions import HTTPException
 import json
 
 app = Flask(__name__)
@@ -164,10 +165,33 @@ def about():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return render_template('405.html'), 405
+
 # Internal Server Error
 @app.errorhandler(500)
 def server_error(e):
     return render_template('500.html'), 500
+
+@app.errorhandler(Exception)
+def handle_all_errors(error):
+    # Log the error for debugging purposes
+    print(f"An error occurred: {error}")
+    
+    # Handle HTTP exceptions with status codes
+    if isinstance(error, HTTPException):
+        # For HTTP exceptions, use the error's description and code
+        code = error.code
+        msg = error.description
+    else:
+        # For non-HTTP exceptions, set a generic 500 error
+        code = 500
+        msg = "An internal server error occurred."
+
+    # Render the generic error page with the message and status code
+    return render_template('generic_error.html', error_message=msg, error_code=code), code
+
 
 
 if __name__ == "__main__":
