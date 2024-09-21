@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Oops! Error {{ error_code }}
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        .error-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+            text-align: center;
+        }
+
+        .error-message {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .display-1 {
+            font-weight: 500;
+        }
+
+        p.lead {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: #6c757d; /* Bootstrap secondary color */
+        }
+
+        .btn-outline-secondary {
+            border-width: 2px;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+    </style>
+
+    <div class="error-container">
+        <div class="error-message">
+            <h1 class="display-1 text-danger">{{ error_code }}</h1>
+            <p class="lead">"For I know the plans I have for you," declares the Lord. "Plans to prosper you and not to harm you, plans to give you hope and a future." – Jeremiah 29:11</p>
+            <p>We’re sorry, but something went wrong. Remember, even in moments of uncertainty, there is always hope.</p>
+            <p>If the problem persists, please <a href="/contact">reach out for support</a>.</p>
+            <a href="/" class="btn btn-outline-secondary">Return to the source of hope</a>
+        </div>
+    </div>
+
+{% endblock %}
